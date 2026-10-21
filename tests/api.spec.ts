@@ -44,3 +44,32 @@ test('POST API creates a new resource', async ({ request }) => {
   expect(body.userId).toBe(1);
   expect(body.id).toBeDefined();
 });
+
+test('PUT API updates a resource', async ({ request }) => {
+  const response = await request.put(
+    'https://jsonplaceholder.typicode.com/posts/1',
+    {
+      data: {
+        id: 1,
+        title: 'Updated with Playwright',
+        body: 'API automation testing',
+        userId: 1
+      }
+    }
+  );
+
+  expect(response.status()).toBe(200);
+
+  const body = await response.json();
+
+  expect(body.title).toBe('Updated with Playwright');
+  expect(body.id).toBe(1);
+});
+
+test('DELETE API removes a resource', async ({ request }) => {
+  const response = await request.delete(
+    'https://jsonplaceholder.typicode.com/posts/1'
+  );
+
+  expect(response.status()).toBe(200);
+});
